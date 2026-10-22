@@ -99,12 +99,16 @@ Gender is optional; players without it are ignored by the mixed-doubles term. Le
 
 ### What gets recorded, and when
 
-- **Generate** writes bench, singles and pair counts immediately, and commits the previous round.
-- **Marking a winner** writes a win and a loss. With a set score, levels move by an Elo update (K-factor 0.6–3.0, scaled by margin of victory and by how lopsided the teams were).
+- **Generate** writes bench, singles and pair counts immediately, and ends the previous round.
+- **Marking a winner** records a win and a loss for that court.
 - **Rotating or dragging players** reverses the old court's pair counts and applies the new ones, so history matches the line-up on screen.
 - **Regenerating within two minutes without a result** replaces the previous round instead of adding one: the last round's counts are undone and re-applied to the new arrangement, so re-rolling does not inflate anything.
 
-A round counts as played once the next assignment is generated. It does not require a result, so sessions that never pick a winner still rotate partners and bench fairly.
+Bench, singles and pair counts advance every time you generate, whether or not a result was recorded, so partner rotation and bench fairness work in sessions that never pick a winner.
+
+The **Rounds Played** statistic is stricter: it advances when the next assignment is generated, and only if the round being ended had at least one recorded winner. A session that never marks a winner keeps its pairing and bench history but never advances that counter.
+
+Levels also update at commit time rather than on the click: the next generate replays the games that have a result, so the Elo change appears then.
 
 ### Where it lives
 
