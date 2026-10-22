@@ -14,7 +14,8 @@ function tesseractAssets(): Plugin {
 
 export default defineConfig(({ command }) => ({
   plugins: [react(), tesseractAssets()],
-  base: command === 'build' ? '/Badminton/' : '/',
+  // GitHub Pages serves the app from /Badminton/; containers serve it from the root.
+  base: command === 'build' ? (process.env.VITE_BASE ?? '/Badminton/') : '/',
   build: {
     rolldownOptions: {
       output: {
