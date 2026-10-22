@@ -1,6 +1,7 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { BaseCourtAssignmentEngine } from '../../src/engines/BaseCourtAssignmentEngine';
+import { CourtAssignmentTracker } from '../../src/engines/CourtAssignmentTracker';
 import type { Court, Player } from '../../src/types';
 import { createMockCourt, createSequentialPlayers as mockPlayers } from '../data/testFactories';
 
@@ -519,6 +520,68 @@ describe('BaseCourtAssignmentEngine', () => {
       }
 
       expect(Object.keys(pairings).length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('rounds played', () => {
+    const PAST_DEBOUNCE_MS = CourtAssignmentTracker.REGENERATION_DEBOUNCE_MS + 60_000;
+
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    /** Generate a round, then let the regeneration debounce lapse. */
+    const playRound = (players: Player[], courtCount: number) => {
+      const result = engine.generate(players, courtCount);
+      vi.advanceTimersByTime(PAST_DEBOUNCE_MS);
+      return result;
+    };
+
+    it('does not count the first generate as a played round', () => {
+      engine.generate(mockPlayers(8), 2);
+
+      expect(engine.snapshot().roundsPlayed).toBe(0);
+    });
+
+    it('counts a round even when no winner was recorded', () => {
+      const players = mockPlayers(8);
+
+      playRound(players, 2);
+      playRound(players, 2);
+
+      expect(engine.snapshot().roundsPlayed).toBe(1);
+    });
+
+    it('keeps counting rounds across a winnerless session', () => {
+      const players = mockPlayers(8);
+
+      for (let round = 0; round < 4; round++) playRound(players, 2);
+
+      expect(engine.snapshot().roundsPlayed).toBe(3);
+    });
+
+    it('does not count a rapid regeneration, with or without a winner', () => {
+      const players = mockPlayers(8);
+
+      engine.generate(players, 2);
+      engine.generate(players, 2);
+      engine.generate(players, 2);
+
+      expect(engine.snapshot().roundsPlayed).toBe(0);
+    });
+
+    it('still counts a round whose result was recorded', () => {
+      const players = mockPlayers(8);
+      const { courts } = playRound(players, 2);
+      engine.recordWins(courts.map(court => ({ ...court, winner: 1 as const })));
+
+      playRound(players, 2);
+
+      expect(engine.snapshot().roundsPlayed).toBe(1);
     });
   });
 

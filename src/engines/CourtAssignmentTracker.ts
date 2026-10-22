@@ -60,7 +60,7 @@ export class CourtAssignmentTracker implements ICourtAssignmentTracker {
   /** Monotonic counter for generating timestamps */
   protected static globalCounter = 0;
 
-  /** Count of rounds where a winner was committed — used for "Rounds Played" display */
+  /** Count of committed rounds — used for the "Rounds Played" stat */
   private static roundsPlayed = 0;
 
   /** Observer pattern listeners for state change notifications */
@@ -128,11 +128,15 @@ export class CourtAssignmentTracker implements ICourtAssignmentTracker {
     this.notifyStateChange();
   }
 
-  /** Increments roundsPlayed if the current session had at least one winner. */
+  /**
+   * Counts the round that just ended. A round is a played arrangement, not a
+   * decided result: casual sessions often never record a winner, and the bench
+   * rotation and pair history advance either way. Skipped when no arrangement
+   * has been generated yet, so the first generate does not invent a round.
+   */
   protected markRoundCompleted(): void {
-    if (CourtAssignmentTracker.recordedWinsMap.size > 0) {
-      CourtAssignmentTracker.roundsPlayed++;
-    }
+    if (CourtAssignmentTracker.lastGeneratedAt === undefined) return;
+    CourtAssignmentTracker.roundsPlayed++;
   }
 
   /**
