@@ -14,7 +14,7 @@ function tesseractAssets(): Plugin {
 
 export default defineConfig(({ command }) => ({
   plugins: [react(), tesseractAssets()],
-  base: command === 'build' ? '/Badminton/' : '/',
+  base: command === 'build' ? (process.env.VITE_BASE ?? '/Badminton/') : '/',
   build: {
     rolldownOptions: {
       output: {

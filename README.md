@@ -130,6 +130,14 @@ See [`analysis/`](analysis/README.md) for simulation scripts and benchmarks.
 
 See [`.github/CONTRIBUTING.md`](.github/CONTRIBUTING.md) for development setup and available scripts.
 
+## Run with Docker
+
+```bash
+docker compose up --build
+```
+
+Then open <http://localhost:8080>. This serves the production build through nginx, so no local Node install is needed.
+
 ## License
 
 [AGPL-3.0](LICENSE) © sylhare

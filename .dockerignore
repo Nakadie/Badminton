@@ -1,0 +1,12 @@
+.git
+.gitignore
+.github
+node_modules
+dist
+coverage
+test-results
+playwright-report
+e2e
+analysis
+public/tesseract
+*.log
