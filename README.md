@@ -32,9 +32,7 @@ The engine assigns players to courts by minimising a cost function across these 
 
 ### Results are optional
 
-Wins and losses are shown on the leaderboard, and only the Smart Engine uses them when choosing courts. With it switched off the assignment ignores results entirely: courts and teams come from partner, opponent and singles history, and the bench from bench counts.
-
-You never have to pick a winner. Bench, singles and partner history are recorded every time assignments are generated. Regenerating more than two minutes after the previous generate adds to those counts; regenerating sooner replaces that round's counts instead.
+Without the Smart Engine, wins and losses are not used, so a winner never needs to be picked. Bench, singles and partner counts still update on every generate, except when you regenerate within two minutes, which replaces the previous round instead.
 
 See [`analysis/`](analysis/README.md) for simulation scripts and benchmarks.
 
