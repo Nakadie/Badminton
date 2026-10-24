@@ -44,11 +44,12 @@ export function readStoredLocale(): string | null {
   }
 }
 
+/** Persists the choice. Storage can be unavailable (private mode, quota); the in-memory choice still applies. */
 export function storeLocale(locale: Locale): void {
   try {
     localStorage.setItem(LOCALE_STORAGE_KEY, locale);
   } catch {
-    // Storage can be unavailable (private mode, quota); the in-memory choice still applies.
+    return;
   }
 }
 

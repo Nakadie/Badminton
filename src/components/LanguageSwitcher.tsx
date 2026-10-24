@@ -4,7 +4,7 @@ import { SUPPORTED_LOCALES, useTranslation } from '../i18n';
 import type { Locale } from '../i18n';
 
 /** Language picker. The choice is persisted and applied on the next visit. */
-const LanguageSwitcher: React.FC = () => {
+export const LanguageSwitcher: React.FC = () => {
   const { locale, setLocale, t } = useTranslation();
 
   return (
@@ -26,5 +26,3 @@ const LanguageSwitcher: React.FC = () => {
     </label>
   );
 };
-
-export default LanguageSwitcher;

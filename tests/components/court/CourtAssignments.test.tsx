@@ -6,6 +6,9 @@ import userEvent from '@testing-library/user-event';
 import { CourtAssignments } from '../../../src/components/court';
 import { formatTimeAgo } from '../../../src/components/court/CourtAssignments';
 import { Court, Player } from '../../../src/types';
+import type { TranslationKey, TranslationParams } from '../../../src/i18n';
+import { interpolate } from '../../../src/i18n';
+import { ja } from '../../../src/i18n/messages/ja';
 import { TEST_COURTS, TEST_PLAYERS } from '../../data/testData';
 
 describe('CourtAssignments Component', () => {
@@ -507,6 +510,12 @@ describe('formatTimeAgo', () => {
   it('returns 2d ago for timestamps ~2 days old', () => {
     vi.setSystemTime(new Date('2024-01-03T00:00:00.000Z'));
     expect(formatTimeAgo(new Date('2024-01-01T00:00:00.000Z').getTime())).toBe('2d ago');
+  });
+
+  it('uses translated relative time units when given a translator', () => {
+    const jaT = (key: TranslationKey, params?: TranslationParams): string => interpolate(ja[key], params);
+
+    expect(formatTimeAgo(Date.now() - 5_000, jaT)).toBe('5秒前');
   });
 });
 

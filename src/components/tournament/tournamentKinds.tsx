@@ -74,8 +74,13 @@ function formatSetupNote(note: GroupSetupNote, t: Translate): string {
   return splitText;
 }
 
+interface GroupKnockoutSetupProps {
+  config: SetupConfig;
+  teams: TournamentTeam[];
+}
+
 /** Group-stage setup fields plus the live "N groups of M" note. */
-const GroupKnockoutSetup: React.FC<{ config: SetupConfig; teams: TournamentTeam[] }> = ({ config, teams }) => {
+const GroupKnockoutSetup: React.FC<GroupKnockoutSetupProps> = ({ config, teams }) => {
   const { t } = useTranslation();
   const note = GroupKnockoutTournament.setupSummary(teams, config.groupSize, config.qualifiersPerGroup);
 

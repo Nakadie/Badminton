@@ -5,19 +5,16 @@
  * interpolated by `t(key, params)`.
  */
 export const en = {
-  // App shell
   'app.title': 'Badminton Court Manager',
   'app.managePlayers': 'Manage Players',
   'app.courtAssignments': 'Court Assignments',
 
-  // Footer / language
   'footer.feedback': 'Have feedback? Found a bug or want to suggest a feature?',
   'footer.contact': 'Let us know on GitHub',
   'footer.statsLink': 'View Statistics & Analysis',
   'footer.tournamentLink': 'Try Tournament Mode',
   'language.label': 'Language',
 
-  // Shared
   'common.cancel': 'Cancel',
   'common.confirm': 'Confirm',
   'common.save': 'Save',
@@ -26,14 +23,12 @@ export const en = {
   'common.moreInformation': 'More information',
   'common.removedPlayer': 'removed',
 
-  // Player entry
   'players.entryPlaceholder': 'Enter player name (use ` or , to add multiple)',
   'players.importFromImage': 'Import players from image',
   'players.addPlayer': 'Add Player',
   'players.addPlayers': 'Add {count} Players',
   'players.detectedHint': '💡 Detected {count} players separated by {separator}',
 
-  // Player list
   'players.present': 'Present',
   'players.absent': 'Absent',
   'players.total': 'Total',
@@ -60,7 +55,6 @@ export const en = {
   'players.resetMessage':
     'Are you sure you want to reset the algorithm\'s memory? This will clear all records of who played with who, bench counts, and win/loss history. Players will remain but pairing preferences will be reset.',
 
-  // Leaderboard
   'leaderboard.title': '🏆 Leaderboard',
   'leaderboard.player': 'Player',
   'leaderboard.level': 'Level',
@@ -68,7 +62,6 @@ export const en = {
   'leaderboard.wins': 'Wins',
   'leaderboard.matches': 'Matches',
 
-  // Player edit modal
   'playerEdit.gender': 'Gender',
   'playerEdit.genderTooltip':
     'Setting gender helps Smart Engine balance mixed doubles — it avoids putting all players of the same gender on one team.',
@@ -77,18 +70,15 @@ export const en = {
   'playerEdit.levelTooltip':
     'Level (0–100) represents playing skill. Smart Engine pairs players of similar levels together for more competitive and enjoyable matches.',
 
-  // Player removal modal
   'playerRemoval.title': 'Remove Player',
   'playerRemoval.question': 'What would you like to do with {name}?',
   'playerRemoval.markAbsent': 'Mark as Absent',
   'playerRemoval.remove': 'Remove Player',
 
-  // Share modal
   'share.title': 'Share Session',
   'share.body': 'Share this URL to let others load your current session:',
   'share.copyUrl': 'Copy URL',
 
-  // Import (shared session) modal
   'import.title': 'Load Shared Session',
   'import.body': 'A shared session was found in the URL. Loading it will replace your current session.',
   'import.sharedSavedAt': 'Shared session saved:',
@@ -98,7 +88,6 @@ export const en = {
   'import.keepMine': 'Keep my session',
   'import.loadShared': 'Load shared session',
 
-  // Image import modal
   'image.title': '📸 Import Players from Image',
   'image.instructions1': 'Take a photo or upload an image of your player list.',
   'image.instructions2': 'Drag and drop, or click to select.',
@@ -112,7 +101,6 @@ export const en = {
   'image.addOne': 'Add {count} Player',
   'image.addOther': 'Add {count} Players',
 
-  // Court assignments
   'court.courts': 'Courts:',
   'court.rearrange': 'Rearrange players',
   'court.rearrangeTooltip':
@@ -140,14 +128,12 @@ export const en = {
     'Players will be randomly assigned to courts. Doubles (4 players) is preferred, but singles (2 players) will be used for odd numbers. Extra players will be benched.',
   'court.addPlayersFirst': 'Add some players above to start generating court assignments.',
 
-  // Relative time
   'time.justNow': 'just now',
   'time.secondsAgo': '{count}s ago',
   'time.minutesAgo': '{count}min ago',
   'time.hoursAgo': '{count}h ago',
   'time.daysAgo': '{count}d ago',
 
-  // Score input modal
   'score.enterTitle': 'Enter the set scores',
   'score.winnerTitle': '🏆 Team {team} wins!',
   'score.enterSingle': 'Enter the score (defaults to {a} – {b}):',
@@ -157,7 +143,6 @@ export const en = {
   'score.teamScore': 'Team {team} score',
   'score.teamScoreSet': 'Team {team} score set {set}',
 
-  // Tournament shell
   'tournament.setup': 'Tournament Setup',
   'tournament.current': 'Current Tournament',
   'tournament.title': 'Tournament',
@@ -243,7 +228,6 @@ export const en = {
   'tournament.allAdvanceWarning':
     'No one will be eliminated in the group phase — every team advances. Is that what you want?',
 
-  // Stats page
   'stats.backToApp': '← Court Manager',
   'stats.title': '{engine} Diagnostics',
   'stats.warnings': '⚠️ Warnings',
@@ -286,14 +270,11 @@ export const en = {
   'stats.labelTeamedUp': 'teamed up',
   'stats.labelFacedEachOther': 'faced each other',
 
-  // Not found
   'notFound.message': 'The page you\'re looking for doesn\'t exist.',
   'notFound.back': 'Go back to the Court Manager',
 
-  // Image OCR
   'ocr.failed': 'Failed to process image. Please try again or add players manually.',
 
-  // Engines
   'engine.sa.description':
     'Simulated Annealing with iterative improvement. Performs {iterations} iterations, accepting worse solutions probabilistically to escape local minima.',
   'engine.smart2.description':

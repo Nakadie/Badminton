@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { useTranslation } from '../i18n';
 
-import LanguageSwitcher from './LanguageSwitcher';
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 interface FooterProps {
   showStatsLink?: boolean;
