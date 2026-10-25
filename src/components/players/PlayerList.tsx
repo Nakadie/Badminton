@@ -218,15 +218,17 @@ const PlayerList: React.FC<PlayerListProps> = ({
             <Trash size={16} />
             {t('players.clearAll')}
           </button>
-          <button
-            onClick={onShare}
-            className="share-button"
-            data-testid="share-button"
-            title={t('players.shareTooltip')}
-          >
-            <ShareNetwork size={16} />
-            {t('players.share')}
-          </button>
+          {onShare && (
+            <button
+              onClick={onShare}
+              className="share-button"
+              data-testid="share-button"
+              title={t('players.shareTooltip')}
+            >
+              <ShareNetwork size={16} />
+              {t('players.share')}
+            </button>
+          )}
         </div>
       )}
 

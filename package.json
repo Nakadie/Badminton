@@ -18,6 +18,9 @@
     "lint": "eslint . --report-unused-disable-directives --max-warnings 10",
     "lint:fix": "eslint . --report-unused-disable-directives --max-warnings 10 --fix",
     "preview": "vite preview",
+    "build:native": "VITE_BASE=/ VITE_NATIVE=1 tsc && VITE_BASE=/ VITE_NATIVE=1 vite build && rm -rf dist/tesseract",
+    "android:sync": "npm run build:native && cap sync android",
+    "android:apk": "npm run android:sync && cd android && ./gradlew assembleDebug",
     "test": "vitest --run",
     "test:coverage": "vitest --run --coverage",
     "test:ui": "vitest --ui",
@@ -28,6 +31,9 @@
     "remove-comments": "npx tsx script/remove_comments.ts src tests e2e"
   },
   "dependencies": {
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/preferences": "^8.0.1",
     "@phosphor-icons/react": "^2.1.10",
     "@techstark/opencv-js": "5.0.0-release.1",
     "react": "^19.2.8",
@@ -36,6 +42,8 @@
     "tesseract.js": "^7.0.0"
   },
   "devDependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/cli": "^8.5.3",
     "@eslint/compat": "^2.1.0",
     "@playwright/test": "~1.62.0",
     "@stylistic/eslint-plugin": "^5.10.0",

@@ -1,0 +1,63 @@
+name: Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'android-*'
+  pull_request:
+    paths:
+      - 'android/**'
+      - 'capacitor.config.ts'
+      - 'src/platform/**'
+      - 'package*.json'
+      - '.github/workflows/android.yml'
+
+jobs:
+  apk:
+    name: Build debug APK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the native bundle
+        run: npm run build:native
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Assemble debug APK
+        run: ./gradlew assembleDebug --no-daemon
+        working-directory: android
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: badminton-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
+      - name: Publish pre-release
+        if: startsWith(github.ref, 'refs/tags/android-')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ASSET=android/app/build/outputs/apk/debug/app-debug.apk
+          gh release view "${{ github.ref_name }}" >/dev/null 2>&1 \
+            || gh release create "${{ github.ref_name }}" \
+                 --title "Badminton Android ${{ github.ref_name }}" \
+                 --notes "Debug-signed APK for sideloading. Not from the Play Store." \
+                 --prerelease
+          gh release upload "${{ github.ref_name }}" "$ASSET" --clobber

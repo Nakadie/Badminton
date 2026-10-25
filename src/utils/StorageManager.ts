@@ -1,3 +1,6 @@
+import { Capacitor } from '@capacitor/core';
+import { Preferences } from '@capacitor/preferences';
+
 import type { AppState, Court, CourtEngineState, EngineType, SetScore } from '../types';
 import { DEFAULT_TOURNAMENT_STATE } from '../tournament/types';
 import type { TournamentMatch, TournamentState } from '../tournament/types';
@@ -106,9 +109,38 @@ export async function decompress(data: string): Promise<string> {
 /** Maximum number of level-history snapshots stored per player. */
 export const MAX_LEVEL_HISTORY_ENTRIES = 50;
 
+const NATIVE_BACKUP_KEY = 'badminton-state-backup';
+
 class StorageManager {
   private static readonly KEY = 'badminton-state';
   private static readonly MAX_SIZE = 150_000;
+
+  /**
+   * Copies the compressed state into native storage. The WebView's own
+   * localStorage survives normal restarts, but Android can clear it under
+   * storage pressure; the Preferences copy is what makes the roster durable.
+   */
+  private static async mirrorToNative(raw: string | null): Promise<void> {
+    if (!Capacitor.isNativePlatform()) return;
+    try {
+      if (raw === null) await Preferences.remove({ key: NATIVE_BACKUP_KEY });
+      else await Preferences.set({ key: NATIVE_BACKUP_KEY, value: raw });
+    } catch {
+      return;
+    }
+  }
+
+  /** Restores the native backup when the WebView has no state of its own. No-op on web. */
+  async restoreNativeSnapshot(): Promise<void> {
+    if (!Capacitor.isNativePlatform()) return;
+    if (localStorage.getItem(StorageManager.KEY)) return;
+    try {
+      const { value } = await Preferences.get({ key: NATIVE_BACKUP_KEY });
+      if (value) localStorage.setItem(StorageManager.KEY, value);
+    } catch {
+      return;
+    }
+  }
 
   /** Serialises all writes so concurrent save calls never race on read→write. */
   private writeQueue: Promise<void> = Promise.resolve();
@@ -207,6 +239,7 @@ class StorageManager {
   clearAll(): Promise<void> {
     return this.enqueue(async () => {
       localStorage.removeItem(StorageManager.KEY);
+      await StorageManager.mirrorToNative(null);
     });
   }
 
@@ -223,6 +256,7 @@ class StorageManager {
   /** Writes raw compressed state directly. Used for import — keeps all localStorage access inside StorageManager. */
   importRawState(raw: string): void {
     localStorage.setItem(StorageManager.KEY, raw);
+    void StorageManager.mirrorToNative(raw);
   }
 
   /** Returns true if the raw string is a valid compressed state with players array. */
@@ -375,7 +409,9 @@ class StorageManager {
       const pruned = this.pruneToFit(data as StorageData);
       serialized = JSON.stringify(pruned);
     }
-    localStorage.setItem(StorageManager.KEY, await compress(serialized));
+    const compressed = await compress(serialized);
+    localStorage.setItem(StorageManager.KEY, compressed);
+    void StorageManager.mirrorToNative(compressed);
   }
 
   private pruneToFit(data: StorageData): StorageData {

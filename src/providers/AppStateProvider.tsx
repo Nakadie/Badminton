@@ -93,6 +93,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }): R
 
     const hydrate = async () => {
       try {
+        await storageManager.restoreNativeSnapshot();
         const [loadedState, savedTournament] = await Promise.all([
           storageManager.loadApp(),
           storageManager.loadTournament(),

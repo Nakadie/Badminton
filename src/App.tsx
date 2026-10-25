@@ -9,6 +9,7 @@ import Leaderboard from './components/players/Leaderboard';
 import Footer from './components/Footer';
 import { useAppState } from './providers/AppStateProvider';
 import { useTranslation } from './i18n';
+import { isNativeApp } from './platform/native';
 import { benchedPlayers } from './utils/playerUtils';
 import { applyCourtSwap } from './utils/courtSwap';
 import type { SlotAddr } from './utils/slotSwap';
@@ -196,7 +197,7 @@ function App(): React.ReactElement {
                   onToggleSmartEngine={handleToggleSmartEngine}
                   isSmartEngineEnabled={isSmartEngineEnabled}
                   onUpdatePlayer={handleUpdatePlayer}
-                  onShare={handleShare}
+                  onShare={isNativeApp() ? undefined : handleShare}
                 />
               )}
             </div>
