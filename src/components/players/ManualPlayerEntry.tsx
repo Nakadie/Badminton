@@ -4,8 +4,9 @@ import { Camera, UserPlus } from '@phosphor-icons/react';
 import { parsePlayerInput } from '../../utils/playerUtils';
 import { useAnalytics } from '../../hooks/useAnalytics';
 import { useTranslation } from '../../i18n';
+import { isNativeBuild } from '../../platform/native';
 
-const ImageUploadModal = lazy(() => import('../modals/ImageUploadModal'));
+const ImageUploadModal = isNativeBuild ? null : lazy(() => import('@image-import'));
 
 interface ManualPlayerEntryProps {
   onPlayersAdded: (players: string[]) => void;
@@ -55,15 +56,17 @@ const ManualPlayerEntry: React.FC<ManualPlayerEntryProps> = ({ onPlayersAdded })
           />
         </div>
         <div className="player-entry-actions">
-          <button
-            type="button"
-            className="camera-button"
-            onClick={() => setIsImageModalOpen(true)}
-            title={t('players.importFromImage')}
-            data-testid="open-image-modal-button"
-          >
-            <Camera size={20} weight="bold" />
-          </button>
+          {ImageUploadModal && (
+            <button
+              type="button"
+              className="camera-button"
+              onClick={() => setIsImageModalOpen(true)}
+              title={t('players.importFromImage')}
+              data-testid="open-image-modal-button"
+            >
+              <Camera size={20} weight="bold" />
+            </button>
+          )}
           <button
             type="submit"
             className="add-player-button"
@@ -84,7 +87,7 @@ const ManualPlayerEntry: React.FC<ManualPlayerEntryProps> = ({ onPlayersAdded })
         </p>
       )}
 
-      {isImageModalOpen && (
+      {ImageUploadModal && isImageModalOpen && (
         <Suspense fallback={null}>
           <ImageUploadModal
             isOpen

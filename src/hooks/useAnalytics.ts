@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import type { AssignmentAnomaly } from '../types';
+import { isNativeApp } from '../platform/native';
 
 declare global {
   interface Window {
@@ -27,7 +28,7 @@ export interface AnalyticsHook {
 export const useAnalytics = (): AnalyticsHook => {
   const trackEvent = useCallback((eventData: AnalyticsEvent) => {
 
-    if (typeof window !== 'undefined' && window.gtag) {
+    if (!isNativeApp() && typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', eventData.action, {
         event_category: eventData.category,
         event_label: eventData.label,

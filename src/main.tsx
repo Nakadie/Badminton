@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-route
 import App from './App.tsx';
 import { AppStateProvider } from './providers/AppStateProvider.tsx';
 import { I18nProvider } from './i18n';
+import { AndroidBackButton } from './components/AndroidBackButton';
 import './index.css';
 
 function ScrollToTop() {
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <I18nProvider>
       <Router basename={basePath}>
         <ScrollToTop />
+        <AndroidBackButton />
         <AppStateProvider>
           <Suspense fallback={null}>
             <Routes>

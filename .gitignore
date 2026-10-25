@@ -101,3 +101,9 @@ eng.traineddata
 **/**.egg-info
 analysis/html/**
 analysis/data/**/*.csv
+
+# Capacitor Android build output
+android/.gradle
+android/build
+android/app/build
+android/local.properties

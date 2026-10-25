@@ -33,6 +33,7 @@ vi.mock('../../src/utils/StorageManager', () => ({
   MAX_LEVEL_HISTORY_ENTRIES: 10,
   storageManager: {
     loadApp: mockLoadApp,
+    restoreNativeSnapshot: vi.fn(() => Promise.resolve()),
     loadEngine: vi.fn(),
     loadTournament: vi.fn(() => Promise.resolve(null)),
     saveApp: vi.fn(),
