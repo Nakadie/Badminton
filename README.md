@@ -26,9 +26,13 @@ The engine assigns players to courts by minimising a cost function across these 
 2. **Singles match rotation fairness** – players who have played fewer singles matches get priority.
 3. **Partner variety** – players who have already been teammates many times are less likely to be paired again.
 4. **Opponent variety** – players who have faced each other frequently are less likely to be opponents again.
-5. **Balanced matches** – wins and losses are spread so teams stay competitive (no "super teams" or weak pairings).
+5. **Balanced matches** – wins and losses are spread so teams stay competitive (no "super teams" or weak pairings). Smart Engine only.
 6. **Proper game formats** – courts always have either singles (2) or doubles (4), never 3 players.
 7. **Optimal team pairings** – for each doubles match, the system tries all possible team splits and picks the fairest.
+
+### Results are optional
+
+Without the Smart Engine, wins and losses are not used, so a winner never needs to be picked. Bench, singles and partner counts still update on every generate, except when you regenerate within two minutes, which replaces the previous round instead.
 
 See [`analysis/`](analysis/README.md) for simulation scripts and benchmarks.
 
